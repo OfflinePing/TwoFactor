@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="https://kit.fontawesome.com/3668f12ee4.js" crossorigin="anonymous"></script>
+</head>
+<body>
+<h1>2 Factor Dashboard</h1>
+<h2>{{name}}</h2>
+<div class="user-info">
+    <div class="info">
+        <h2>John Doe</h2>
+        <p class="code">523 655 <a class="fa fa-copy copy"></a></p>
+    </div>
+    <a class="fa fa-trash delete"></a>
+</div>
+
+<div class="glass-card-add">
+    <button class="add-btn" onclick="openModal()">+</button>
+</div>
+
+
+<dialog class="glass-card">
+    <h1>Add MFA</h1>
+    <form>
+        <label for="name">Name</label>
+        <input id="name" type="text" placeholder="Name" required>
+        <label for="secret">Secret</label>
+        <input id="secret" type="text" placeholder="Secret" required>
+        <button id="add-btn" type="submit" onclick="addMFA()">Add</button>
+    </form>
+</dialog>
+<script>
+    document.querySelector(".glass-card").style.display = "none";
+    document.querySelectorAll(".user-info").forEach(e => e.remove());
+
+    const socket = new WebSocket("ws://localhost:8080/ws?user={{name}}");
+    socket.onmessage = function ()
+    {
+        document.querySelectorAll(".user-info").forEach(e => e.remove());
+        document.querySelectorAll(".glass-card-add").forEach(e => e.remove());
+        event.data.split(",").forEach(e =>
+        {
+            const userInfo = document.createElement("div");
+            userInfo.classList.add("user-info");
+            name = e.split(":")[0];
+            code = e.split(":")[1];
+            userInfo.innerHTML = `
+
+                <div class="info">
+                    <h2>${name}</h2>
+                    <p class="code">${code} <a class="fa fa-copy copy" onclick="copy()"></a></p>
+                 </div>
+             <p class="fa fa-trash delete" onclick="deleteMFA()"></p>
+          `;
+            document.body.appendChild(userInfo);
+        });
+
+        const addBtn = document.createElement("div");
+        addBtn.classList.add("glass-card-add");
+        addBtn.innerHTML = `<button class="add-btn" onclick="openModal()">+</button>`;
+        document.body.appendChild(addBtn);
+
+    }
+
+
+    function copy() {
+        const code = document.querySelector(".code").innerText;
+        navigator.clipboard.writeText(code);
+    }
+
+    function openModal() {
+        document.querySelector(".glass-card").style.display = "block";
+        document.querySelector(".glass-card-add").style.display = "none";
+
+    }
+
+
+    function addMFA() {
+        event.preventDefault();
+        const nameInput = document.getElementById("name");
+        const secretInput = document.getElementById("secret");
+
+        if (nameInput.value.trim() === "" || secretInput.value.trim() === "") {
+            alert("Please fill in all the fields.");
+            return;
+        }
+
+
+        socket.send("ADD> " + nameInput.value + ":" + secretInput.value);
+
+        document.querySelector(".glass-card").style.display = "none";
+        document.querySelector(".glass-card-add").style.display = "block";
+        nameInput.value = "";
+        secretInput.value = "";
+    }
+
+
+    function deleteMFA() {
+        const name = document.querySelector(".info h2").innerText;
+        socket.send("DELETE> " + name + ":");
+        document.querySelectorAll(".user-info").forEach(e => e.remove());
+    }
+
+</script>
+</body>
+<style>
+    body {
+        background-color: #1a1a1a;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+        background: linear-gradient(135deg, #1f1f1f 0%, #0d0d0d 100%);
+        overflow: hidden;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    .glass-card {
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(10px);
+        border-radius: 10px;
+        padding: 20px;
+        width: 500px;
+        box-sizing: border-box;
+        color: white;
+        box-shadow: 0 1px 1px 0 rgba( 31, 38, 135, 0.37 );
+        border: 1px solid rgba( 255, 255, 255, 0.18 );
+        margin-bottom: 30px;
+        text-align: center;
+    }
+
+    .glass-card label {
+        display: block;
+        text-align: left;
+        margin-left: 15px;
+        margin-bottom: 5px;
+    }
+
+    .glass-card h1 {
+        align-self: flex-start;
+        margin-bottom: 30px;
+    }
+
+
+    #add-btn {
+        border: none;
+        outline: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        background: rgba(255, 255, 255, 0.1);
+        color: white;
+        cursor: pointer;
+        transition: 0.3s ease;
+    }
+
+    #add-btn button:hover {
+        background: rgba(255, 255, 255, 0.25);
+    }
+
+    .glass-card input {
+        border: none;
+        outline: none;
+        padding: 10px;
+        border-radius: 5px;
+        width: 90%;
+        background: rgba(255, 255, 255, 0.1);
+        color: white;
+        margin-bottom: 20px;
+    }
+
+    .user-info {
+        width: 30%;
+        height: 100px;
+        background: rgba(255, 255, 255, 0.1);
+        padding: 15px;
+        border-radius: 15px;
+        box-sizing: border-box;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 30px;
+        box-shadow: 0 2px 16px 0 rgba( 255, 255, 255, 0.37 );
+        border: 1px solid rgba( 255, 255, 255, 0.18 );
+    }
+
+    .info h2 {
+        color: white;
+        margin-top: 15px;
+        font-family: Tahoma, Geneva, Verdana, sans-serif;
+        font-weight: normal;
+        margin-bottom: 0;
+    }
+
+    .user-info .code {
+        color: white;
+        font-family: "JetBrains Mono", monospace;
+        font-size: 18px;
+        font-weight: bold;
+    }
+
+    .add-btn {
+        background: none;
+        border: none;
+        color: white;
+        font-size: 30px;
+        cursor: pointer;
+        text-align: right;
+    }
+
+    h1 {
+        color: white
+    }
+
+    .glass-card-add {
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(10px);
+        border-radius: 15px;
+        height: 30px;
+        width: 30px;
+        box-sizing: border-box;
+        color: white;
+        box-shadow: 0 1px 1px 0 rgba( 31, 38, 135, 0.37 );
+        border: 1px solid rgba( 255, 255, 255, 0.18 );
+    }
+
+    .glass-card-add .add-btn {
+        background: none;
+        border: none;
+        color: white;
+        font-size: 25px;
+        cursor: pointer;
+        margin-left: 1px;
+        margin-top: -4px;
+        text-align: center;
+    }
+
+    .delete {
+        color: white;
+        font-size: 20px;
+        cursor: pointer;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .copy {
+        cursor: pointer;
+        font-weight: normal;
+    }
+
+    .copy:hover {
+        font-weight: bold;
+    }
+
+    h2 {
+        color: white;
+        margin-top: -20px;
+    }
+</style>
+</html>

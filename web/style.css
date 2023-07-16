@@ -1,0 +1,121 @@
+body {
+    background-color: #1a1a1a;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background: linear-gradient(135deg, #1f1f1f 0%, #0d0d0d 100%);
+    overflow: hidden;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.glass-card {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border-radius: 10px;
+    padding: 20px;
+    width: 500px;
+    box-sizing: border-box;
+    color: white;
+    box-shadow: 0 1px 1px 0 rgba( 31, 38, 135, 0.37 );
+    border: 1px solid rgba( 255, 255, 255, 0.18 );
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+.glass-card h1 {
+    align-self: flex-start;
+    margin-bottom: 30px;
+}
+
+#login-btn {
+    border: none;
+    outline: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+
+#login-btn button:hover {
+    background: rgba(255, 255, 255, 0.25);
+}
+
+.glass-card input {
+    border: none;
+    outline: none;
+    padding: 10px;
+    border-radius: 5px;
+    width: 90%;
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    margin-bottom: 20px;
+}
+
+.user-info {
+    width: 80%;
+    height: 100px;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 15px;
+    border-radius: 10px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-bottom: 30px;
+    box-shadow: 0 2px 16px 0 rgba( 255, 255, 255, 0.37 );
+    border: 1px solid rgba( 255, 255, 255, 0.18 );
+}
+
+.user-info h2 {
+    color: white;
+    margin-top: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-weight: normal;
+    margin-bottom: 0;
+}
+
+.user-info .code {
+    color: white;
+    font-weight: bold;
+}
+
+.add-btn {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 30px;
+    cursor: pointer;
+    text-align: right;
+}
+
+h1 {
+    color: white
+}
+
+.glass-card-add {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border-radius: 15px;
+    height: 30px;
+    width: 30px;
+    box-sizing: border-box;
+    color: white;
+    box-shadow: 0 1px 1px 0 rgba( 31, 38, 135, 0.37 );
+    border: 1px solid rgba( 255, 255, 255, 0.18 );
+}
+
+.glass-card-add .add-btn {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 25px;
+    cursor: pointer;
+    margin-left: 1px;
+    margin-top: -4px;
+    text-align: center;
+}
