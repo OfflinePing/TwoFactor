@@ -6,18 +6,52 @@
 <body>
 <h1>2 Factor Dashboard</h1>
 <h2>{{name}}</h2>
+
+<div class="user-info-container">
 <div class="user-info">
     <div class="info">
         <h2>John Doe</h2>
         <p class="code">523 655 <a class="fa fa-copy copy"></a></p>
     </div>
     <a class="fa fa-trash delete"></a>
+</div><div class="user-info">
+    <div class="info">
+        <h2>John Doe</h2>
+        <p class="code">523 655 <a class="fa fa-copy copy"></a></p>
+    </div>
+    <a class="fa fa-trash delete"></a>
+</div><div class="user-info">
+    <div class="info">
+        <h2>John Doe</h2>
+        <p class="code">523 655 <a class="fa fa-copy copy"></a></p>
+    </div>
+    <a class="fa fa-trash delete"></a>
+</div><div class="user-info">
+    <div class="info">
+        <h2>John Doe</h2>
+        <p class="code">523 655 <a class="fa fa-copy copy"></a></p>
+    </div>
+    <a class="fa fa-trash delete"></a>
+</div><div class="user-info">
+    <div class="info">
+        <h2>John Doe</h2>
+        <p class="code">523 655 <a class="fa fa-copy copy"></a></p>
+    </div>
+    <a class="fa fa-trash delete"></a>
+</div>
+    <div class="user-info">
+        <div class="info">
+            <h2>John Doe</h2>
+            <p class="code">523 655 <a class="fa fa-copy copy"></a></p>
+        </div>
+        <a class="fa fa-trash delete"></a>
+    </div>
 </div>
 
 <div class="glass-card-add">
     <button class="add-btn" onclick="openModal()">+</button>
 </div>
-
+</div>
 
 <dialog class="glass-card">
     <h1>Add MFA</h1>
@@ -31,13 +65,13 @@
 </dialog>
 <script>
     document.querySelector(".glass-card").style.display = "none";
-    document.querySelectorAll(".user-info").forEach(e => e.remove());
+    //document.querySelectorAll(".user-info").forEach(e => e.remove());
 
     const socket = new WebSocket("ws://localhost:{{port}}/ws?user={{name}}");
     socket.onmessage = function ()
     {
-        document.querySelectorAll(".user-info").forEach(e => e.remove());
-        document.querySelectorAll(".glass-card-add").forEach(e => e.remove());
+        //document.querySelectorAll(".user-info").forEach(e => e.remove());
+        //document.querySelectorAll(".glass-card-add").forEach(e => e.remove());
         event.data.split(",").forEach(e =>
         {
             const userInfo = document.createElement("div");
@@ -116,7 +150,6 @@
 </body>
 <style>
     body {
-        background-color: #1a1a1a;
         display: flex;
         flex-direction: column;
         justify-content: center;
@@ -124,8 +157,43 @@
         height: 100vh;
         margin: 0;
         background: linear-gradient(135deg, #1f1f1f 0%, #0d0d0d 100%);
-        overflow: hidden;
         font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body::-webkit-scrollbar {
+        width: 15px;
+    }
+
+    body::-webkit-scrollbar-track {
+        background: #0d0d0d;
+    }
+
+    body::-webkit-scrollbar-thumb {
+        background-color: #1f1f1f;
+        border-radius: 20px;
+        border: 3px solid #0d0d0d;
+    }
+
+
+    .user-info-container::-webkit-scrollbar {
+        width: 15px;
+    }
+
+    .user-info-container::-webkit-scrollbar-track {
+        background: transparent;
+    }
+
+    .user-info-container::-webkit-scrollbar-thumb {
+        border-radius: 20px;
+        border: 3px solid transparent;
+    }
+
+    .user-info-container {
+        height: 600px;
+        width: 60%;
+        overflow-y: auto;
+        margin-bottom: 30px;
+        position: relative;
     }
 
     .glass-card {
@@ -182,19 +250,20 @@
     }
 
     .user-info {
-        width: 30%;
+        width: 90%;
+        margin-left: 15px;
         height: 100px;
         background: rgba(255, 255, 255, 0.1);
         padding: 15px;
-        border-radius: 15px;
+        border-radius: 20px;
         box-sizing: border-box;
         display: flex;
         flex-direction: row;
         justify-content: space-between;
         align-items: center;
+        margin-top: 30px;
         margin-bottom: 30px;
-        overflow: auto;
-        box-shadow: 0 2px 16px 0 rgba( 255, 255, 255, 0.37 );
+        box-shadow: 0 2px 12px 0 rgba( 255, 255, 255, 0.37 );
         border: 1px solid rgba( 255, 255, 255, 0.18 );
     }
 
