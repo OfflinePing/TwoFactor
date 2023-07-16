@@ -79,7 +79,6 @@
             name = e.split(":")[0];
             code = e.split(":")[1];
             userInfo.innerHTML = `
-
                 <div class="info">
                     <h2>${name}</h2>
                     <p class="code">${code} <a class="fa fa-copy copy" onclick="copy()"></a></p>
@@ -107,10 +106,20 @@
         }
     }
 
-
     function copy() {
-        const code = event.target.parentElement.innerText;
-        navigator.clipboard.writeText(code);
+        const copyText = event.target.parentElement.parentElement.querySelector(".code").innerText;
+        console.log(copyText);
+
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(copyText)
+        } else {
+            const textarea = document.createElement("textarea");
+            textarea.value = copyText;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand("copy");
+            document.body.removeChild(textarea);
+        }
     }
 
     function openModal() {
