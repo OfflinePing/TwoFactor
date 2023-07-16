@@ -7,8 +7,7 @@ it encrypts the secret and password before saving or loading them.
 if you find any bugs or vulnabilities open a Github issue!
 
 Showcase:
-https://github.com/OfflinePing/TwoFactor/assets/54213976/284f716c-452a-4629-b2f5-d2ef5af226de
-
+![test-2023-07-16_12 51](https://github.com/OfflinePing/TwoFactor/assets/54213976/1e5672f3-98d6-409b-8012-d057782d6081)
 
 
 ## How to Setup?
