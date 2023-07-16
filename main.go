@@ -2,9 +2,11 @@ package main
 
 import (
 	"TwoFaktor/database"
+	"encoding/json"
 	"fmt"
 	"golang.org/x/net/websocket"
 	"net/http"
+	"os"
 	"strings"
 	"time"
 )
@@ -18,6 +20,12 @@ func NewServer() *Server {
 		conns: make(map[*websocket.Conn]bool),
 	}
 }
+
+type Config struct {
+	Port string
+}
+
+var CFG Config
 
 func (s *Server) handleWSOrder(ws *websocket.Conn) {
 	fmt.Println("New Orderbook Client Connection: ", ws.RemoteAddr())
@@ -130,7 +138,8 @@ func DashboardPage(w http.ResponseWriter, r *http.Request) {
 	}
 
 	name := strings.Split(ses.Value, " ")[0]
-	dash := strings.NewReplacer("{{name}}", name).Replace(database.GetFile("web/dashboard.html"))
+	dash := strings.NewReplacer("{{name}}", name, "{{port}}", CFG.Port).Replace(database.GetFile("web/dashboard.html"))
+
 	w.Write([]byte(dash))
 }
 
@@ -141,11 +150,25 @@ func main() {
 	fmt.Println("Created tables")
 	database.Load()
 	fmt.Println("Loaded data")
+
+	file, err := os.Open("config.json")
+	if err != nil {
+		fmt.Println("Error loading config file")
+		return
+	}
+
+	decoder := json.NewDecoder(file)
+	err = decoder.Decode(&CFG)
+	if err != nil {
+		fmt.Println("Error decoding config file")
+		return
+	}
+
 	defer database.Close()
 	server := NewServer()
 	http.Handle("/ws", websocket.Handler(server.handleWSOrder))
 	http.HandleFunc("/", LoginPage)
 	http.HandleFunc("/dashboard", DashboardPage)
 	http.HandleFunc("/register", RegisterPage)
-	http.ListenAndServe(":8080", nil)
+	http.ListenAndServe(":"+CFG.Port, nil)
 }

@@ -55,7 +55,6 @@ func Encrypt(passphrase, text string) (string, error) {
 	return base64.URLEncoding.EncodeToString(ciphertext), nil
 }
 func Decrypt(passphrase, cipherText string) (string, error) {
-	// Create a new AES-256 cipher with the SHA-256 of the passphrase
 	hasher := sha256.New()
 	hasher.Write([]byte(passphrase))
 	block, err := aes.NewCipher(hasher.Sum(nil))
@@ -136,7 +135,7 @@ func AddUser(username, password string) {
 	if err != nil {
 		panic(err)
 	}
-	Faktors = append(Faktors, User{username, password, []Faktor{}})
+	Faktors = append(Faktors, User{username, HashPassword(password), []Faktor{}})
 }
 
 func AddFaktor(name string, password string, secret string, username string) {
@@ -181,7 +180,7 @@ func Load() {
 			panic(err)
 		}
 
-		Faktors = append(Faktors, User{username, password, mfa})
+		Faktors = append(Faktors, User{username, HashPassword(password), mfa})
 	}
 
 	if err = rows.Err(); err != nil {
@@ -214,9 +213,9 @@ func RemoveFaktor(name string, username string) []Faktor {
 	return mfa
 }
 
-func Authenticate(username string, key string) bool {
+func Authenticate(username string, password string) bool {
 	for _, user := range Faktors {
-		if user.Pass == HashPassword(key) && user.User == username {
+		if user.Pass == HashPassword(password) && user.User == username {
 			return true
 		}
 	}
