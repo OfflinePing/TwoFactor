@@ -33,7 +33,7 @@
     document.querySelector(".glass-card").style.display = "none";
     document.querySelectorAll(".user-info").forEach(e => e.remove());
 
-    const socket = new WebSocket("ws://localhost:8080/ws?user={{name}}");
+    const socket = new WebSocket("ws://localhost:{{port}}/ws?user={{name}}");
     socket.onmessage = function ()
     {
         document.querySelectorAll(".user-info").forEach(e => e.remove());
