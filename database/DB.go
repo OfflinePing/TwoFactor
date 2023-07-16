@@ -96,7 +96,7 @@ func GetUserMFA(username string) []Faktor {
 }
 
 func GetFACode(pasword string, secret string) string {
-	sec, err := Decrypt(pasword, secret)
+	sec, err := Decrypt(HashPassword(pasword), secret)
 	if err != nil {
 		return ""
 	}
@@ -104,6 +104,7 @@ func GetFACode(pasword string, secret string) string {
 	if err != nil {
 		return ""
 	}
+	code = code[:3] + " " + code[3:]
 	return code
 }
 func Connect() {
@@ -140,7 +141,7 @@ func AddUser(username, password string) {
 
 func AddFaktor(name string, password string, secret string, username string) {
 	faktors := GetUserMFA(username)
-	encrypt, err := Encrypt(password, secret)
+	encrypt, err := Encrypt(HashPassword(password), secret)
 	if err != nil {
 		panic(err)
 	}
@@ -180,7 +181,7 @@ func Load() {
 			panic(err)
 		}
 
-		Faktors = append(Faktors, User{username, HashPassword(password), mfa})
+		Faktors = append(Faktors, User{username, password, mfa})
 	}
 
 	if err = rows.Err(); err != nil {
