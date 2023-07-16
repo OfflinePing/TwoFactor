@@ -21,4 +21,3 @@ Showcase:
 7. Change Port in "config.json" to desired Port
 8. run `./TwoFaktor`
 9. open `(yourip/serverip):(port from config)/` in your Browser
-10. Proft!
