@@ -7,6 +7,7 @@ it encrypts the secret and password before saving or loading them.
 if you find any bugs or vulnabilities open a Github issue!
 
 Showcase:
+
 ![test-2023-07-16_12_51_AdobeExpress](https://github.com/OfflinePing/TwoFactor/assets/54213976/f151372f-e7f9-4040-94d1-cb8ef96494c0)
 
 
