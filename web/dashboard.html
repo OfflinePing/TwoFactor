@@ -55,16 +55,27 @@
             document.body.appendChild(userInfo);
         });
 
-        const addBtn = document.createElement("div");
-        addBtn.classList.add("glass-card-add");
-        addBtn.innerHTML = `<button class="add-btn" onclick="openModal()">+</button>`;
-        document.body.appendChild(addBtn);
-
+        if (document.querySelector(".glass-card").style.display === "none") {
+            const glassCardAdd = document.createElement("div");
+            glassCardAdd.classList.add("glass-card-add");
+            glassCardAdd.innerHTML = `
+                <button class="add-btn" onclick="openModal()">+</button>
+            `;
+            document.body.appendChild(glassCardAdd);
+        } else {
+            const glassCardAdd = document.createElement("div");
+            glassCardAdd.classList.add("glass-card-add");
+            glassCardAdd.innerHTML = `
+                <button class="add-btn" onclick="openModal()">+</button>
+            `;
+            glassCardAdd.style.display = "none";
+            document.body.appendChild(glassCardAdd);
+        }
     }
 
 
     function copy() {
-        const code = document.querySelector(".code").innerText;
+        const code = event.target.parentElement.innerText;
         navigator.clipboard.writeText(code);
     }
 
@@ -182,6 +193,7 @@
         justify-content: space-between;
         align-items: center;
         margin-bottom: 30px;
+        overflow: auto;
         box-shadow: 0 2px 16px 0 rgba( 255, 255, 255, 0.37 );
         border: 1px solid rgba( 255, 255, 255, 0.18 );
     }

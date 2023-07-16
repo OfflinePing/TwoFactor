@@ -50,6 +50,9 @@ func (s *Server) handleWSOrder(ws *websocket.Conn) {
 			msg := string(buf[:n])
 			if strings.Contains(msg, "ADD> ") {
 				msg = strings.Replace(msg, "ADD> ", "", 1)
+				if database.GetFACode(password, strings.Split(msg, ":")[1]) == "" {
+					continue
+				}
 				database.AddFaktor(strings.Split(msg, ":")[0], password, strings.Split(msg, ":")[1], username)
 			}
 			if strings.Contains(msg, "DELETE> ") {
@@ -63,7 +66,9 @@ func (s *Server) handleWSOrder(ws *websocket.Conn) {
 		var msg string
 		for _, mfa := range database.GetUserMFA(username) {
 			code := database.GetFACode(password, mfa.Secret)
-			msg += mfa.Name + ":" + code + ","
+			if code != "" {
+				msg += mfa.Name + ":" + code + ","
+			}
 		}
 		if len(msg) > 0 {
 			msg = strings.TrimSuffix(msg, ",")
@@ -88,7 +93,6 @@ func RegisterPage(w http.ResponseWriter, r *http.Request) {
 	if r.Method == "POST" {
 		username := r.FormValue("username")
 		password := r.FormValue("password")
-		fmt.Println(username, password)
 		if len(username) == 0 || len(password) == 0 {
 			fmt.Println("Username or password is empty")
 			return
