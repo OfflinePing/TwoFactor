@@ -6,6 +6,11 @@ it encrypts the secret and password before saving or loading them.
 
 if you find any bugs or vulnabilities open a Github issue!
 
+Showcase:
+https://github.com/OfflinePing/TwoFactor/assets/54213976/284f716c-452a-4629-b2f5-d2ef5af226de
+
+
+
 ## How to Setup?
 1. Download GoLang from https://go.dev/doc/install
 2. Add GoLang to Path / Envoriment
