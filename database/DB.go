@@ -9,7 +9,6 @@ import (
 	"encoding/base64"
 	"encoding/json"
 	"errors"
-	"fmt"
 	"github.com/pquerna/otp/totp"
 	"io"
 	_ "modernc.org/sqlite"
@@ -99,7 +98,6 @@ func GetUserMFA(username string) []Faktor {
 func GetFA(secret string) string {
 	code, err := totp.GenerateCode(secret, time.Now())
 	if err != nil {
-		fmt.Println(err)
 		return ""
 	}
 	code = code[:3] + " " + code[3:]
@@ -109,12 +107,10 @@ func GetFA(secret string) string {
 func GetFACode(password string, secret string) string {
 	sec, err := Decrypt(HashPassword(password), secret)
 	if err != nil {
-		fmt.Println(err)
 		return ""
 	}
 	code, err := totp.GenerateCode(sec, time.Now())
 	if err != nil {
-		fmt.Println(err)
 		return ""
 	}
 	code = code[:3] + " " + code[3:]

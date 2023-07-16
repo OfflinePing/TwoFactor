@@ -48,11 +48,9 @@ func (s *Server) handleWSOrder(ws *websocket.Conn) {
 				return
 			}
 			msg := string(buf[:n])
-			fmt.Println(msg)
 			if strings.Contains(msg, "ADD> ") {
 				msg = strings.Replace(msg, "ADD> ", "", 1)
 				if database.GetFA(strings.Split(msg, ":")[1]) == "" {
-					fmt.Println("Invalid code")
 					continue
 				} else {
 					database.AddFaktor(strings.Split(msg, ":")[0], password, strings.Split(msg, ":")[1], username)
