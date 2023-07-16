@@ -65,13 +65,13 @@
 </dialog>
 <script>
     document.querySelector(".glass-card").style.display = "none";
-    //document.querySelectorAll(".user-info").forEach(e => e.remove());
+    document.querySelectorAll(".user-info").forEach(e => e.remove());
 
-    const socket = new WebSocket("ws://localhost:{{port}}/ws?user={{name}}");
+    const socket = new WebSocket("ws://localohst:{{port}}/ws?user={{name}}");
     socket.onmessage = function ()
     {
-        //document.querySelectorAll(".user-info").forEach(e => e.remove());
-        //document.querySelectorAll(".glass-card-add").forEach(e => e.remove());
+        document.querySelectorAll(".user-info").forEach(e => e.remove());
+        document.querySelectorAll(".glass-card-add").forEach(e => e.remove());
         event.data.split(",").forEach(e =>
         {
             const userInfo = document.createElement("div");
@@ -86,7 +86,7 @@
                  </div>
              <p class="fa fa-trash delete" onclick="deleteMFA()"></p>
           `;
-            document.body.appendChild(userInfo);
+            document.querySelector(".user-info-container").appendChild(userInfo);
         });
 
         if (document.querySelector(".glass-card").style.display === "none") {
