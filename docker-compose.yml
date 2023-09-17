@@ -1,0 +1,11 @@
+version: '3'
+
+services:
+  two-factor:
+    image: golang:1.21.1-bookworm
+    ports:
+      - "2244:2244"
+    volumes:
+      - /DATA/AppData/two-factor:/app
+    environment:
+      - GO_ENV=development
