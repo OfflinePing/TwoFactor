@@ -2,7 +2,7 @@ version: '3'
 
 services:
   two-factor:
-    image: golang:1.21.1-bookworm
+    image: claascode/twofaktor:latest
     ports:
       - "2244:2244"
     volumes:
