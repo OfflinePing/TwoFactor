@@ -21,3 +21,9 @@ Showcase:
 7. Change Port in "config.json" to desired Port
 8. run `./TwoFaktor`
 9. open `(yourip/serverip):(port from config)/` in your Browser
+
+## How to Setup using Docker?
+1. Download Docker
+2. Enter "docker pull claascode/twofactor"
+3. Run "docker run -dp 0.0.0.0:2244:2244 claascode/twofactor"
+4. Profit?
