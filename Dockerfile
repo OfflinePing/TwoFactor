@@ -13,4 +13,4 @@ RUN go build -o main .
 EXPOSE 2244
 
 # Run the executable
-CMD ["./main"]
+CMD ["./app/main"]
