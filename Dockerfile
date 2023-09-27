@@ -5,11 +5,11 @@ WORKDIR /app
 COPY go.mod go.sum ./
 RUN go mod download
 
-COPY *.go ./
+COPY . .
 
-RUN go build -o /main
+RUN go build .
 
 EXPOSE 2244
 
 # Run the executable
-CMD ["/main"]
+CMD ["./TwoFaktor"]
