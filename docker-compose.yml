@@ -7,6 +7,6 @@ services:
     ports:
       - "2244:2244"
     volumes:
-      - /root/TwoFactor:/app
+      - .:/app
     environment:
       - GO_ENV=development
