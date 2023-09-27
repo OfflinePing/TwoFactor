@@ -2,6 +2,7 @@ version: '3'
 
 services:
   two-factor:
+    build: .
     image: claascode/twofactor
     ports:
       - "2244:2244"
